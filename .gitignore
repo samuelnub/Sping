@@ -1,0 +1,8 @@
+*.obj
+Debug/Sping.log
+*.tlog
+Debug/vc140.pdb
+*.idb
+*.vcxproj
+Sping.vcxproj.filters
+*.user

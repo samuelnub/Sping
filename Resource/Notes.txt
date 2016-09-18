@@ -1,0 +1,9 @@
+1 - 18 Sep 2016:
+	ey, bgfx is just giving me the biggest headache of all time, so I think I'm gonna stick with pure OGL (just hope khronos doesnt abandon it for vk)
+	just main.cpp for now. uh, trying a different file structure, everything is PascalCase, and I'm gonna make the edgy move of putting .cpp and .h files in the same place
+	I'll need to implement a thread pool if I want to do generation and rendering and all that juicy stuff in one frame
+	wrap all your shiz in a namespace
+
+2 - 19 Sep 2016:
+	took a threadpool implementation from https://github.com/progschj/ThreadPool
+	see its example.cpp, use lambdas
