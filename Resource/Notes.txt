@@ -7,3 +7,10 @@
 2 - 19 Sep 2016:
 	took a threadpool implementation from https://github.com/progschj/ThreadPool
 	see its example.cpp, use lambdas
+	use it for time-costly stuff like file io or mesh generation dispatch etc...
+	try making a separate input class and event "dispatch" class (try actually implementing the actual observer pattern this time)
+
+3 - 20 Sep 2016:
+	basic windower up, working!
+	next time you should check if classes can be usable or if theyre still being modified by the threadpool
+	linker, add SDL2.lib AND SDL2main.lib, just need SDL2.dll in your working dir.

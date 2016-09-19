@@ -6,3 +6,4 @@ Debug/vc140.pdb
 *.vcxproj
 Sping.vcxproj.filters
 *.user
+*.dll

@@ -2,7 +2,8 @@
 
 // TODO: initializer list
 Sping::Handler::Handler() :
-	threadPool(std::make_unique<Sping::ThreadPool>(Sping::THREAD_COUNT))
+	threadPool(std::make_unique<Sping::ThreadPool>(Sping::THREAD_COUNT)),
+	window(std::make_unique<Sping::Window>(*this))
 {
 }
 
