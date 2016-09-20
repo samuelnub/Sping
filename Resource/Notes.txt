@@ -14,3 +14,6 @@
 	basic windower up, working!
 	next time you should check if classes can be usable or if theyre still being modified by the threadpool
 	linker, add SDL2.lib AND SDL2main.lib, just need SDL2.dll in your working dir.
+
+4 - 21 Sep 2016:
+	might want to look into RapidXML, header only, and its performance looks pretty impressive compared to tinyxml

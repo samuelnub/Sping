@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include <atomic>
 
 namespace Sping
 {
@@ -13,6 +14,11 @@ namespace Sping
 		Window(Handler &handler);
 		~Window();
 
+		const bool &locked()
+		{
+			return this->locked;
+		}
+
 	protected:
 
 
@@ -24,6 +30,8 @@ namespace Sping
 		int windowFlags; // Enums | OR'ed
 
 		SDL_Renderer *renderer;
+
+		std::atomic<bool> locked = true;
 
 		void init();
 

@@ -9,6 +9,8 @@
 #include <future>
 #include <functional>
 #include <stdexcept>
+#include <iostream>
+#include <Util/Constants.h>
 
 namespace Sping
 {
@@ -57,6 +59,11 @@ namespace Sping
 			}
 		}
 		);
+
+		if (DEBUG)
+		{
+			std::cout << "Initialized the thread pool!\n";
+		}
 	}
 
 	// add new work item to the pool

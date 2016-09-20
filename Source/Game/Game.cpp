@@ -5,7 +5,7 @@
 Sping::Game::Game() :
 	handler(std::make_unique<Handler>())
 {
-	for (int i = 0; i < 100000000; i++)
+	while(true)
 	{
 		this->tick();
 	}
