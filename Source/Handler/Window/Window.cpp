@@ -4,9 +4,6 @@
 Sping::Window::Window(Handler &handler) :
 	handler(handler)
 {
-	// TODO: find a better place to init everything, or just init each part you want in each class
-	SDL_Init(SDL_INIT_VIDEO);
-
 	this->handler.threadPool->enqueue([=] {
 		this->init();
 	});
