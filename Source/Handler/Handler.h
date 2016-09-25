@@ -5,6 +5,7 @@
 
 #include <Handler/Thread/ThreadPool.h>
 //TODO: settings manager should be sandwiched here
+#include <Handler/Event/Input.h>
 #include <Handler/Window/Window.h>
 
 namespace Sping
@@ -19,6 +20,7 @@ namespace Sping
 		void tick();
 
 		std::unique_ptr<ThreadPool> threadPool;
+		std::unique_ptr<Input> input;
 		std::unique_ptr<Window> window;
 
 	protected:

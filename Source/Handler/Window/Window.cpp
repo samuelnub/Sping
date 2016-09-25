@@ -4,6 +4,7 @@
 Sping::Window::Window(Handler &handler) :
 	handler(handler)
 {
+	// TODO: multithreading doesnt work when initting window :(
 	this->handler.threadPool->enqueue([=] {
 		this->init();
 	});
@@ -20,16 +21,18 @@ Sping::Window::~Window()
 void Sping::Window::init()
 {
 	// TODO: proper read from settings (after it has initialized of course)
-	this->window = SDL_CreateWindow("Wololo", 100, 100, 1280, 720, NULL);
+
+	this->window = SDL_CreateWindow("Wololo", 100, 100, 1280, 720, SDL_WINDOW_OPENGL);
 	if (this->window == nullptr)
 	{
 		throw Sping::Err::OH_BOY;
 	}
-
-	if (Sping::DEBUG)
+	/*
+	this->renderer = SDL_CreateRenderer(this->window, -1, SDL_VIDEO_OPENGL);
+	if (this->renderer == nullptr)
 	{
-		std::cout << "Initialized the window (In another thread)!\n";
+		throw Sping::Err::OH_BOY;
 	}
-
-	this->locked = false;
+	*/
+	Sping::debugLog("Created the window, in another thread!");
 }

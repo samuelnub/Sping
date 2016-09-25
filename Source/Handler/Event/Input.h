@@ -26,11 +26,13 @@ namespace Sping
 		int scrolledY = 0;
 	};
 
+	class Handler;
+
 	// SDL input reciever class
 	class Input
 	{
 	public:
-		Input();
+		Input(Handler &handler);
 		~Input();
 
 		void tick();
@@ -45,6 +47,8 @@ namespace Sping
 
 	private:
 		friend class Events;
+
+		Handler &handler;
 
 		SDL_Event event;
 		std::vector<SDL_Event> frameEvents;
@@ -61,14 +65,14 @@ namespace Sping
 		float lastFrameTime = 0.0f;
 		float totalTime = 0.0f; // up&up it goes
 
-		void keyDownEvent(SDL_Event &event);
+		void keyPressedEvent(SDL_Event &event);
 		void keyHeldEvent(SDL_Event &event);
-		void keyUpEvent(SDL_Event &event);
+		void keyReleasedEvent(SDL_Event &event);
 
 		void mouseMotionEvent(SDL_Event &event);
 		void mouseScrollEvent(SDL_Event &event);
-		void mouseButtonDownEvent(SDL_Event &event);
-		void mouseButtonUpEvent(SDL_Event &event);
+		void mouseButtonPressedEvent(SDL_Event &event);
+		void mouseButtonReleasedEvent(SDL_Event &event);
 
 	};
 }
