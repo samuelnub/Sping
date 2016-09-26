@@ -1,3 +1,11 @@
+#ifdef __APPLE__
+#include <OpenGL/gl3.h>         /// remove the "3" for OpenGL versions < 3
+#include <OpenGL/gl3ext.h>      /// ditto
+#else 
+#define GLEW_STATIC
+#include <GL/glew.h>
+#endif
+
 #include <Handler/Window/Window.h>
 #include <Handler/Handler.h>
 
@@ -5,17 +13,15 @@ Sping::Window::Window(Handler &handler) :
 	handler(handler)
 {
 	// TODO: multithreading doesnt work when initting window :(
-	this->handler.threadPool->enqueue([=] {
-		this->init();
-	});
+	this->init();
 
 	std::cout << "lol this should happen before window inits\n";
 }
 
 Sping::Window::~Window()
 {
+	SDL_GL_DeleteContext(this->glContext);
 	SDL_DestroyWindow(this->window);
-	SDL_DestroyRenderer(this->renderer);
 }
 
 void Sping::Window::init()
@@ -27,12 +33,25 @@ void Sping::Window::init()
 	{
 		throw Sping::Err::OH_BOY;
 	}
-	/*
-	this->renderer = SDL_CreateRenderer(this->window, -1, SDL_VIDEO_OPENGL);
-	if (this->renderer == nullptr)
+	
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+	this->glContext = SDL_GL_CreateContext(this->window);
+
+	glewExperimental = GL_TRUE;
+	GLenum glewErr = glewInit();
+	if (glewErr != GLEW_OK)
 	{
 		throw Sping::Err::OH_BOY;
 	}
-	*/
-	Sping::debugLog("Created the window, in another thread!");
+
+	// TODO: no magic numbers pls
+	glViewport(0, 0, 1280, 720);
+
+	Sping::debugLog("Initialized the window!");
 }

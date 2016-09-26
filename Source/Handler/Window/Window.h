@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 
 namespace Sping
 {
@@ -13,7 +14,7 @@ namespace Sping
 		Window(Handler &handler);
 		~Window();
 
-		inline const SDL_Window *getWindow()
+		inline SDL_Window *getWindow()
 		{
 			return this->window;
 		}
@@ -25,10 +26,9 @@ namespace Sping
 		Handler &handler;
 
 		SDL_Window *window;
+		SDL_GLContext glContext;
 
 		int windowFlags; // Enums | OR'ed
-
-		SDL_Renderer *renderer;
 
 		void init();
 

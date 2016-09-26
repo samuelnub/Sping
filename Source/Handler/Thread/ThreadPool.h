@@ -60,10 +60,7 @@ namespace Sping
 		}
 		);
 
-		if (DEBUG)
-		{
-			std::cout << "Initialized the thread pool!\n";
-		}
+		debugLog("Initialized the threadpool!");
 	}
 
 	// add new work item to the pool

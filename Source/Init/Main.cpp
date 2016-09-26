@@ -12,10 +12,7 @@ int main(int argc, char *args[])
 	}
 	catch (Sping::Err err)
 	{
-		if (Sping::DEBUG == true)
-		{
-			std::cout << "Caught an error/exception: " << static_cast<int>(err) << "\n";
-		}
+		std::cout << "Caught an exception! " << static_cast<int>(err) << "\n";
 	}
 
 	std::cout << "Bye!\n";

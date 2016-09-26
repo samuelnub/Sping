@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<Window>
+  <setting name="Width" type="Int" value="1280"/>
+  <setting name="Height" type="Int" value="720"/>
+  <setting name="Fullscreen" type="Bool" value="0"/>
+</Window>

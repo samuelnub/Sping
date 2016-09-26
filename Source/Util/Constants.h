@@ -5,14 +5,16 @@
 
 namespace Sping
 {
-	const bool DEBUG = true;
-	const int THREAD_COUNT = 32;
+	const bool SPING_DEBUG(true);
+	const int THREAD_COUNT(32);
 
 	enum class Err
 	{
-		GENERIC = 8008135,
-		FATAL = 46290,
-		CATASTROPHIC = 3,
+		GENERIC,
+		FATAL,
+		CATASTROPHIC,
+		FILE_ERROR,
+
 		OH_BOY = 0xDEAD
 	};
 

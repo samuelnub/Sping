@@ -2,7 +2,7 @@
 
 void Sping::debugLog(const std::string & message)
 {
-	if (Sping::DEBUG)
+	if (Sping::SPING_DEBUG == true)
 	{
 		std::cout << message << "\n";
 	}
