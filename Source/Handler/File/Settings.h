@@ -11,9 +11,8 @@ namespace Sping
 	// Use this when specifying what y'want, less error-prone than runtime string mishaps
 	enum class SettingCategory
 	{
-		WINDOW,
-		CONTROLS
-		// etc
+		WINDOW
+		// etc, remember to fill out the equivalent string below
 	};
 	
 	enum class DataType
@@ -37,6 +36,8 @@ namespace Sping
 		double d;
 		std::string s;
 
+		Data() {}
+
 		Data(bool b) : b(b), type(DataType::BOOL) {}
 		Data(int i) : i(i), type(DataType::INT) {}
 		Data(float f) : f(f), type(DataType::FLOAT) {}
@@ -53,9 +54,11 @@ namespace Sping
 		// Y'know, I could use std::atomic, but really? I'm not _that_ eager to write good code
 		bool readable;
 
-		std::map<std::string, Data> settingData = {};
+		std::map<std::string, Data> settingData;
 
-		SettingFile(bool readable) : readable(readable) {}
+		SettingFile() {}
+
+		SettingFile(bool readable) : readable(readable), settingData() {}
 	};
 
 	class Settings
@@ -66,8 +69,7 @@ namespace Sping
 
 		// Should only be used by the loader to access the xml file name strings
 		std::map<SettingCategory, std::string> SettingCategoryStrings = {
-			{ SettingCategory::WINDOW, "Window" },
-			{ SettingCategory::CONTROLS, "Controls" }
+			{ SettingCategory::WINDOW, "Window" }
 		};
 
 		Data &get(SettingCategory category, const std::string &name);

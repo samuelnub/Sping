@@ -14,8 +14,6 @@ Sping::Window::Window(Handler &handler) :
 {
 	// TODO: multithreading doesnt work when initting window :(
 	this->init();
-
-	std::cout << "lol this should happen before window inits\n";
 }
 
 Sping::Window::~Window()

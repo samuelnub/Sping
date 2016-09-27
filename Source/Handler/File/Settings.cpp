@@ -115,6 +115,12 @@ int Sping::Settings::load(Sping::SettingCategory category)
 					data->s = xmlEle->Attribute("value");
 					data->type = Sping::DataType::STRING;
 				}
+				else
+				{
+					Sping::debugLog({ "Settings: Unknown type specified for the setting name " + name + "!" });
+				}
+
+				Sping::debugLog({ "Settings: Got the setting with the name " + name + "!" });
 
 				xmlEle = xmlEle->NextSiblingElement("setting");
 			}
