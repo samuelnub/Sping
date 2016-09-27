@@ -4,10 +4,60 @@
 Sping::Settings::Settings(Handler &handler) :
 	handler(handler)
 {
+	for (auto &category : this->SettingCategoryStrings)
+	{
+		this->load(category.first);
+	}
 }
 
 Sping::Settings::~Settings()
 {
+}
+
+Sping::Data &Sping::Settings::get(SettingCategory category, const std::string & name)
+{
+	try
+	{
+		return this->settings.at(category).settingData.at(name);
+	}
+	catch (std::exception err)
+	{
+		return fauxData;
+	}
+}
+
+void Sping::Settings::set(SettingCategory category, const std::string name, const Data & data)
+{
+	try
+	{
+		Sping::Data *dataPtr = &this->settings.at(category).settingData.at(name);
+
+		switch (data.type)
+		{
+		case Sping::DataType::BOOL:
+			dataPtr->b = data.b;
+			break;
+		case Sping::DataType::INT:
+			dataPtr->i = data.i;
+			break;
+		case Sping::DataType::FLOAT:
+			dataPtr->f = data.f;
+			break;
+		case Sping::DataType::DOUBLE:
+			dataPtr->d = data.d;
+			break;
+		case Sping::DataType::STRING:
+			dataPtr->s = data.s;
+			break;
+		default:
+			break;
+		}
+	}
+	catch (std::exception err)
+	{
+		Sping::debugLog({ "You idiot hammond, you tried to set a nonexistant setting!" });
+		return;
+	}
 }
 
 int Sping::Settings::load(Sping::SettingCategory category)
@@ -25,7 +75,7 @@ int Sping::Settings::load(Sping::SettingCategory category)
 		return 1;
 	}
 
-	this->settings[category] = {};
+	this->settings[category] = {false};
 
 	tinyxml2::XMLElement *xmlEle = xmlDoc.FirstChildElement(Sping::Settings::SettingCategoryStrings[category].c_str());
 	if (xmlEle != nullptr)
@@ -38,33 +88,40 @@ int Sping::Settings::load(Sping::SettingCategory category)
 				std::string name = xmlEle->Attribute("name");
 				std::string type = xmlEle->Attribute("type");
 
-				Sping::Data *data = &this->settings[category][name];
+				Sping::Data *data = &this->settings[category].settingData[name];
 
 				if (type == "Bool")
 				{
 					xmlEle->QueryBoolAttribute("value", &data->b);
+					data->type = Sping::DataType::BOOL;
 				}
 				else if (type == "Int")
 				{
 					xmlEle->QueryIntAttribute("value", &data->i);
+					data->type = Sping::DataType::INT;
 				}
 				else if (type == "Float")
 				{
 					xmlEle->QueryFloatAttribute("Value", &data->f);
+					data->type = Sping::DataType::FLOAT;
 				}
 				else if (type == "Double")
 				{
 					xmlEle->QueryDoubleAttribute("Value", &data->d);
+					data->type = Sping::DataType::DOUBLE;
 				}
 				else if (type == "String")
 				{
 					data->s = xmlEle->Attribute("value");
+					data->type = Sping::DataType::STRING;
 				}
 
 				xmlEle = xmlEle->NextSiblingElement("setting");
 			}
 		}
 	}
+
+	this->settings[category].readable = true;
 
 	return 0;
 }

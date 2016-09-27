@@ -3,4 +3,10 @@
   <setting name="Width" type="Int" value="1280"/>
   <setting name="Height" type="Int" value="720"/>
   <setting name="Fullscreen" type="Bool" value="0"/>
+  <setting name="GLMajorVer" type="Int" value="3"/>
+  <setting name="GLMinorVer" type="Int" value="3"/>
+  <setting name="StencilBits" type="Int" value="8"/>
+  <setting name="MultisampleBuffers" type="Int" value="1"/>
+  <setting name="Multisamples" type="Int" value="4"/>
+  <setting name="DoubleBuffer" type="Bool" value="1"/>
 </Window>

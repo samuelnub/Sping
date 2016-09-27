@@ -17,3 +17,7 @@
 
 4 - 21 Sep 2016:
 	might want to look into RapidXML, header only, and its performance looks pretty impressive compared to tinyxml
+
+5 - 27 Sep 2016:
+	added tinyxml2 dependancy, and glew32s.lib & opengl32.lib
+	initializing may be handled single threadedly, but then in loop, you could use extra threads
