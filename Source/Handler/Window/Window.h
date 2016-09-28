@@ -8,6 +8,7 @@ namespace Sping
 	class Handler;
 
 	// Window handler class, tell it to resize the window, update its info, all that stuff
+	// TODO: window info struct that other classes can get info about the current window state, as well as wrapper functions here to set window size, fullscreen etc...
 	class Window
 	{
 	public:
@@ -27,8 +28,6 @@ namespace Sping
 
 		SDL_Window *window;
 		SDL_GLContext glContext;
-
-		int windowFlags; // Enums | OR'ed
 
 		void init();
 

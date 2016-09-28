@@ -7,7 +7,10 @@ Sping::Input::Input(Handler &handler) :
 	handler(handler)
 {
 	// TODO: find a better place to init everything, or just init each part you want in each class (this guy should be the first sdl-related class to init)
-	SDL_Init(SDL_INIT_EVERYTHING);
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+	{
+		Sping::debugLog({ "Unable to initialize SDL!\n" });
+	}
 
 	this->resetStates();
 
@@ -133,7 +136,7 @@ void Sping::Input::keyPressedEvent(SDL_Event & event)
 {
 	this->keyStates[event.key.keysym.scancode] = InputState::PRESSED;
 
-	Sping::debugLog("Pressed key");
+	Sping::debugLog({ "Pressed key " + std::to_string(event.key.keysym.scancode)});
 }
 
 void Sping::Input::keyHeldEvent(SDL_Event & event)

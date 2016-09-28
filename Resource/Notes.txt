@@ -21,3 +21,7 @@
 5 - 27 Sep 2016:
 	added tinyxml2 dependancy, and glew32s.lib & opengl32.lib
 	initializing may be handled single threadedly, but then in loop, you could use extra threads
+
+6 - 28 Sep 2016:
+	generally sorted out window and settings, to the degree that i currently need it. try and stick to that, dont try to facilitate everything on your first run, add stuff when you need it, i mean, that's what TODO's are partly for
+	if you wanna do a "layered rendering" method again, try doing it close-to-far, and use the stencil buffer to block out already-rendered pixels

@@ -22,6 +22,7 @@ Sping::Data &Sping::Settings::get(SettingCategory category, const std::string & 
 	}
 	catch (std::exception err)
 	{
+		Sping::debugLog({ "You bugger! You tried to get a nonexistant setting!" });
 		return fauxData;
 	}
 }
@@ -71,7 +72,7 @@ int Sping::Settings::load(Sping::SettingCategory category)
 	tinyxml2::XMLError xmlErr = xmlDoc.LoadFile(fullPath.c_str());
 	if (xmlErr != 0)
 	{
-		throw Sping::Err::FILE_ERROR;
+		throw Sping::Err::FILE;
 		return 1;
 	}
 
