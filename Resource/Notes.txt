@@ -25,3 +25,7 @@
 6 - 28 Sep 2016:
 	generally sorted out window and settings, to the degree that i currently need it. try and stick to that, dont try to facilitate everything on your first run, add stuff when you need it, i mean, that's what TODO's are partly for
 	if you wanna do a "layered rendering" method again, try doing it close-to-far, and use the stencil buffer to block out already-rendered pixels
+
+7 - 29 Sep 2016:
+	starting on the renderer portion, will contain managers for shaders, meshes and textures, as well as a proper scene graph and nodes
+	by the way, ogl doesn't provide "#include <>" capabilities in glsl, but their ARB_shading_language_include extension should do the trick

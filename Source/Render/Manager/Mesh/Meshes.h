@@ -35,12 +35,22 @@ namespace Sping
 		Mesh();
 		~Mesh();
 
-		// This should be quite a heavy operation, might want to thread it
+		Mesh(bool readable);
+
+		// Shouldn't be using this constructor directly
 		Mesh(
-			bool readable, 
+			bool readable,
 			const std::string &name,
-			const std::vector<Vertex> &vertices, 
-			const std::vector<GLuint> &indices);
+			const std::vector<Vertex> &vertices,
+			const std::vector<GLuint> &indices
+			);
+
+		// Should only be used internally within Meshes class
+		int set(
+			const std::string &name,
+			const std::vector<Vertex> &vertices,
+			const std::vector<GLuint> &indices
+			);
 
 		inline const bool &isReadable()
 		{
@@ -53,11 +63,14 @@ namespace Sping
 			return this->name;
 		}
 
+
+
 	protected:
 
 
 	private:
 		friend class Meshes;
+		friend class Renderer;
 		
 		bool readable;
 
@@ -89,6 +102,13 @@ namespace Sping
 
 		const std::shared_ptr<Mesh> get(const std::string &name);
 
+		// By the way, the whole purpose of a shared pointer is to not deallocate the memory if someone's still holding on to it
+		// (be it one of your objects), so this is quite useless
+		// Actually, I take that back, make it so when you delete your
+		// Object instance, in the destructor, call this->mesh.reset(nullptr)
+		// So that you'll decrement the "pointer counter" in this pool,
+		// In the hopes that the removal of the last one will allow proper deletion here
+		// That's actually really ducking handy, thanks smart memory
 		int remove(const std::string &name);
 
 	protected:
@@ -100,7 +120,7 @@ namespace Sping
 		std::unordered_map<std::string, std::shared_ptr<Mesh>> meshes;
 
 		// By the way, trying to remove this - since it isn't in the map, it won't do anything
-		std::shared_ptr<Mesh> fauxMesh = std::make_shared<Mesh>();
+		std::shared_ptr<Mesh> fauxMesh = std::make_shared<Mesh>(false);
 
 	};
 }
