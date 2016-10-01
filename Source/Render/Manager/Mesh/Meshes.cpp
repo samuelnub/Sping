@@ -98,6 +98,12 @@ Sping::Meshes::Meshes(Handler & handler) :
 
 Sping::Meshes::~Meshes()
 {
+	for (auto &mesh : this->meshes)
+	{
+		glDeleteVertexArrays(1, &mesh.second->vaoID);
+		glDeleteBuffers(1, &mesh.second->vboID);
+		glDeleteBuffers(1, &mesh.second->eboID);
+	}
 }
 
 const std::shared_ptr<Sping::Mesh> Sping::Meshes::load(const std::string & name, const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices, bool threaded)

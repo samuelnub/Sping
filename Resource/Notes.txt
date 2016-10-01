@@ -29,3 +29,11 @@
 7 - 29 Sep 2016:
 	starting on the renderer portion, will contain managers for shaders, meshes and textures, as well as a proper scene graph and nodes
 	by the way, ogl doesn't provide "#include <>" capabilities in glsl, but their ARB_shading_language_include extension should do the trick
+
+8 - 30 Sep 2016:
+	finished up meshes manager, won't know if it fully works till i finish the other managers, and make a quick scene and renderer implementation
+	oh snap, c++14 allows you to specify a binary literal, eg 0b1101, heck yea
+
+9 - 1 Oct 2016:
+	october, o man
+	the handler/file folder should ultimately only contain settings and savefile classes, other classes arent strictly stopped from conducting file io operations, that'd just be stupid

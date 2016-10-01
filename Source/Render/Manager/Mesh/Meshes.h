@@ -63,8 +63,6 @@ namespace Sping
 			return this->name;
 		}
 
-
-
 	protected:
 
 
@@ -91,6 +89,8 @@ namespace Sping
 	public:
 		Meshes(Handler &handler);
 		~Meshes();
+
+		// TODO: overloaded load func to load from obj file, with assimp support (when you need it)
 
 		// TODO: allow for option to load dynamic meshes etc.
 		// but to be honest, you'd be 100x better off using geometry shaders instead
