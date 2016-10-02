@@ -106,6 +106,15 @@ namespace Sping
 		Shaders(Handler &handler);
 		~Shaders();
 
+		// You shouldn't be loading and compiling shaders during regular runtime
+		// Should be done internally on setup, for all shaders needed
+		std::shared_ptr<Shader> load(
+			const std::string &name,
+			const std::vector<ShaderFile> &shaderFiles,
+			const std::vector<ShaderUniform> &uniforms,
+			bool threaded = false
+			);
+
 		std::shared_ptr<Shader> get(const std::string &name);
 
 		int remove(const std::string &name);
@@ -115,15 +124,6 @@ namespace Sping
 
 	private:
 		Handler &handler;
-
-		// You shouldn't be loading and compiling shaders during regular runtime
-		// Should be done internally on setup, for all shaders needed
-		std::shared_ptr<Shader> load(
-			const std::string &name,
-			const std::vector<ShaderFile> &shaderFiles,
-			const std::vector<ShaderUniform> &uniforms,
-			bool threaded = false
-			);
 
 		std::unordered_map<std::string, std::shared_ptr<Shader>> shaders;
 

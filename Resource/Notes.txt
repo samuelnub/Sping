@@ -37,3 +37,9 @@
 9 - 1 Oct 2016:
 	october, o man
 	the handler/file folder should ultimately only contain settings and savefile classes, other classes arent strictly stopped from conducting file io operations, that'd just be stupid
+
+10 - 2 Oct 2016:
+	oh SNAP, just got bgfx to build properly, just did make using the VS command prompt in my documents/git one (not mingw or that shiz via cmd), right now theres just an error @ runtime for their example program, regarding VR, probably just need to get the oculus sdk and specify the PATH as the docs said
+	(sorry im getting sidetracked)
+	flucking works, just set it @ line 119 of hmd.cpp, whereby it checks if a var is a nullptr, and will return, made it so it returns if its not nullptr, cause the var itself is some hex value beforehand, making it carry out subsequent actions which will cause segfaults
+	actually, bgfx is still an ass to get working :(, theres a bunch of libs to sort out and linker settings are just killing me, i'll just continue this until something solves itself
