@@ -127,5 +127,7 @@ namespace Sping
 
 		std::unordered_map<std::string, std::shared_ptr<Shader>> shaders;
 
+		std::shared_ptr<Shader> fauxShader = std::make_shared<Shader>(false);
+
 	};
 }

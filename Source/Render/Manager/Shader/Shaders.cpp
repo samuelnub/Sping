@@ -122,7 +122,8 @@ int Sping::Shader::compile(const std::string & name, const std::vector<ShaderFil
 	return 0;
 }
 
-Sping::Shaders::Shaders(Handler & handler)
+Sping::Shaders::Shaders(Handler &handler) :
+	handler(handler)
 {
 	// TODO: shader constructor shiz
 }
@@ -168,4 +169,30 @@ std::shared_ptr<Sping::Shader> Sping::Shaders::load(const std::string & name, co
 	}
 
 	return this->shaders.at(name);
+}
+
+std::shared_ptr<Sping::Shader> Sping::Shaders::get(const std::string & name)
+{
+	try
+	{
+		return this->shaders.at(name);
+	}
+	catch (std::exception err)
+	{
+		Sping::debugLog({ "You nincompoop! You tried to get a nonexistant shader with the name " + name });
+		return this->fauxShader;
+	}
+}
+
+int Sping::Shaders::remove(const std::string & name)
+{
+	try
+	{
+		this->shaders.erase(name);
+		return 0;
+	}
+	catch (std::exception err)
+	{
+		return 1;
+	}
 }
