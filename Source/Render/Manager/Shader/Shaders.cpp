@@ -58,7 +58,9 @@ int Sping::Shader::compile(const std::string & name, const std::vector<ShaderFil
 
 		try
 		{
-			file.open("Resources/Shaders/" + shader.name + ".glsl");
+			// TODO: magic strings
+			file.open({Sping::ROOT_DIR + "Shaders/" + shader.name + ".glsl"
+		});
 
 			std::stringstream stream;
 
@@ -136,7 +138,7 @@ Sping::Shaders::~Shaders()
 	}
 }
 
-std::shared_ptr<Sping::Shader> Sping::Shaders::load(const std::string & name, const std::vector<ShaderFile>& shaderFiles, const std::vector<ShaderUniform>& uniforms, bool threaded)
+const std::shared_ptr<Sping::Shader> Sping::Shaders::load(const std::string & name, const std::vector<ShaderFile>& shaderFiles, const std::vector<ShaderUniform>& uniforms, bool threaded)
 {
 	try
 	{

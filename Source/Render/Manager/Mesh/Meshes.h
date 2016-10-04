@@ -28,6 +28,7 @@ namespace Sping
 		glm::vec3 uv;
 	};
 
+	// TODO: refactor for factory pattern
 	// Mesh instance, your "renderables" should only hold a shared_ptr to an existing one stored in the meshes class
 	class Mesh
 	{

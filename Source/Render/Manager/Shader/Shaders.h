@@ -46,6 +46,7 @@ namespace Sping
 		ShaderUniform(const std::string &name, GLfloat value);
 	};
 	
+	// TODO: refactor as factory pattern for Shaders
 	// Shader program holder, which just encapsulates a single pipeline
 	// Your renderable class should have a shared ptr to this from the Shaders manager
 	class Shader
@@ -93,7 +94,7 @@ namespace Sping
 
 		GLuint programID;
 
-		GLenum shaderTypes; // Binary Or'd enums, check by And'ing
+		GLenum shaderTypes; // Binary Or'd enums, check by And'ing, no real purpose
 
 		std::vector<ShaderUniform> uniforms;
 
@@ -108,7 +109,7 @@ namespace Sping
 
 		// You shouldn't be loading and compiling shaders during regular runtime
 		// Should be done internally on setup, for all shaders needed
-		std::shared_ptr<Shader> load(
+		const std::shared_ptr<Shader> load(
 			const std::string &name,
 			const std::vector<ShaderFile> &shaderFiles,
 			const std::vector<ShaderUniform> &uniforms,

@@ -56,9 +56,8 @@ namespace Sping
 
 		std::map<std::string, Data> settingData;
 
-		SettingFile() {}
-
-		SettingFile(bool readable) : readable(readable), settingData() {}
+		SettingFile();
+		SettingFile(bool readable);
 	};
 
 	class Settings
@@ -78,10 +77,9 @@ namespace Sping
 		Handler &handler;
 
 		// Should only be used by the loader to access the xml file name strings
-		std::map<SettingCategory, std::string> SettingCategoryStrings = {
+		std::map<SettingCategory, std::string> settingCategory = {
 			{ SettingCategory::WINDOW, "Window" }
 		};
-
 
 		std::map<SettingCategory, SettingFile> settings;
 

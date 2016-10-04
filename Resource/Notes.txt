@@ -43,3 +43,8 @@
 	(sorry im getting sidetracked)
 	flucking works, just set it @ line 119 of hmd.cpp, whereby it checks if a var is a nullptr, and will return, made it so it returns if its not nullptr, cause the var itself is some hex value beforehand, making it carry out subsequent actions which will cause segfaults
 	actually, bgfx is still an ass to get working :(, theres a bunch of libs to sort out and linker settings are just killing me, i'll just continue this until something solves itself
+
+11 - 4 Oct 2016:
+	read up on shader storage buffer objects, really cool for keeping craptons of data on the graphics card, compared to uniform buffer objects, ogl 4.3+ feature
+	try to minify the mesh and shader's instance classes, mimic the texture class' factory method
+	by the way, just realised that deleting your objects from the map will leave nothing for gl to clean up in the destructor, TODO: make it attempt to glDelete when you call the "remove()"

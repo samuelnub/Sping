@@ -65,7 +65,7 @@ int Sping::Settings::load(Sping::SettingCategory category)
 {
 	std::string fullPath =
 		"Resource/Settings/" +
-		Sping::Settings::SettingCategoryStrings[category] +
+		Sping::Settings::settingCategory[category] +
 		".xml";
 
 	tinyxml2::XMLDocument xmlDoc;
@@ -78,7 +78,7 @@ int Sping::Settings::load(Sping::SettingCategory category)
 
 	this->settings[category] = {false};
 
-	tinyxml2::XMLElement *xmlEle = xmlDoc.FirstChildElement(Sping::Settings::SettingCategoryStrings[category].c_str());
+	tinyxml2::XMLElement *xmlEle = xmlDoc.FirstChildElement(Sping::Settings::settingCategory[category].c_str());
 	if (xmlEle != nullptr)
 	{
 		xmlEle = xmlEle->FirstChildElement("setting");
@@ -131,4 +131,13 @@ int Sping::Settings::load(Sping::SettingCategory category)
 	this->settings[category].readable = true;
 
 	return 0;
+}
+
+Sping::SettingFile::SettingFile()
+{
+}
+
+Sping::SettingFile::SettingFile(bool readable) :
+	readable(readable)
+{
 }
