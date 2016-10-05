@@ -127,7 +127,8 @@ namespace Sping
 
 		const std::shared_ptr<Texture> get(const std::string &name);
 
-		int remove(const std::string &name);
+		// Literal suicide
+		int remove(std::shared_ptr<Texture> &texture);
 
 	protected:
 

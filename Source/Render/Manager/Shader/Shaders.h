@@ -55,21 +55,13 @@ namespace Sping
 		Shader();
 		~Shader();
 
-		Shader(bool readable);
-
-		Shader(
-			bool readable,
-			const std::string &name,
-			const std::vector<ShaderFile> &shaderFiles,
-			const std::vector<ShaderUniform> &uniforms
-			);
+		Shader(bool readable, const std::string &name);
 
 		inline const bool &isReadable()
 		{
 			return this->readable;
 		}
-
-		// In case you want to remove it by name
+		
 		inline const std::string &getName()
 		{
 			return this->name;
@@ -81,26 +73,18 @@ namespace Sping
 	private:
 		friend class Shaders;
 		friend class Renderer;
-		
-		int compile(
-			const std::string &name,
-			const std::vector<ShaderFile> &shaderFiles,
-			const std::vector<ShaderUniform> &uniforms
-			);
 
 		bool readable;
 
 		std::string name;
 
 		GLuint programID;
-
-		GLenum shaderTypes; // Binary Or'd enums, check by And'ing, no real purpose
-
+		
 		std::vector<ShaderUniform> uniforms;
-
+		// TODO: support for other storage buffers, like SSBO's
 	};
 
-	// Shader manager, should 
+	// Shader manager, should manage each shader program
 	class Shaders
 	{
 	public:
@@ -118,7 +102,7 @@ namespace Sping
 
 		std::shared_ptr<Shader> get(const std::string &name);
 
-		int remove(const std::string &name);
+		int remove(std::shared_ptr<Shader> &shader);
 
 	protected:
 
@@ -128,7 +112,6 @@ namespace Sping
 
 		std::unordered_map<std::string, std::shared_ptr<Shader>> shaders;
 
-		std::shared_ptr<Shader> fauxShader = std::make_shared<Shader>(false);
-
+		std::shared_ptr<Shader> fauxShader = std::make_shared<Shader>(false, "faux-shader");
 	};
 }

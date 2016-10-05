@@ -16,6 +16,8 @@ namespace Sping
 		CATASTROPHIC,
 		FILE,
 		WINDOW,
+		SHADER_COMPILE,
+		SHADER_LINK,
 		IMAGE_LOAD,
 
 		OH_BOY = 0xDEAD

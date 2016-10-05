@@ -102,14 +102,7 @@ namespace Sping
 			bool threaded = true);
 
 		const std::shared_ptr<Mesh> get(const std::string &name);
-
-		// By the way, the whole purpose of a shared pointer is to not deallocate the memory if someone's still holding on to it
-		// (be it one of your objects), so this is quite useless
-		// Actually, I take that back, make it so when you delete your
-		// Object instance, in the destructor, call this->mesh.reset(nullptr)
-		// So that you'll decrement the "pointer counter" in this pool,
-		// In the hopes that the removal of the last one will allow proper deletion here
-		// That's actually really ducking handy, thanks smart memory
+		
 		int remove(const std::string &name);
 
 	protected:

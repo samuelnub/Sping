@@ -116,14 +116,14 @@ const std::shared_ptr<Sping::Texture> Sping::Textures::load(const std::string & 
 			stbi_image_free(image);
 
 			textureMap->type = textureFile.type;
+
+			this->textures[name]->readable = true;
 		}
 	};
 
 	if (threaded == true)
 	{
-		this->handler.threadPool->enqueue([&]{
-			lambda();
-		});
+		this->handler.threadPool->enqueue(lambda);
 	}
 	else if (threaded == false)
 	{
@@ -150,7 +150,8 @@ int Sping::Textures::remove(std::shared_ptr<Sping::Texture> &texture)
 {
 	try
 	{
-		if (this->textures.at(texture->name).use_count() <= 1)
+		// It needs your shared_ptr and the pool's shared ptr to guarantee this, so the minimum is a 2
+		if (this->textures.at(texture->name).use_count() <= 2)
 		{
 			for (auto &textureMap : texture->textureMaps)
 			{
@@ -158,9 +159,11 @@ int Sping::Textures::remove(std::shared_ptr<Sping::Texture> &texture)
 			}
 			
 			this->textures.at(texture->name).reset();
+			this->textures.erase(texture->name);
 		}
 		else
 		{
+			texture.reset();
 			return -1;
 		}
 
@@ -169,6 +172,7 @@ int Sping::Textures::remove(std::shared_ptr<Sping::Texture> &texture)
 	}
 	catch (std::exception err)
 	{
+		texture.reset();
 		return -2;
 	}
 }

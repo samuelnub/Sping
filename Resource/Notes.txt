@@ -45,6 +45,11 @@
 	actually, bgfx is still an ass to get working :(, theres a bunch of libs to sort out and linker settings are just killing me, i'll just continue this until something solves itself
 
 11 - 4 Oct 2016:
-	read up on shader storage buffer objects, really cool for keeping craptons of data on the graphics card, compared to uniform buffer objects, ogl 4.3+ feature
+	read up on shader storage buffer objects, really cool for keeping craptons of data on the graphics card, compared to uniform buffer objects, ogl 4.3+ feature (which means screw you osx lol)
 	try to minify the mesh and shader's instance classes, mimic the texture class' factory method
 	by the way, just realised that deleting your objects from the map will leave nothing for gl to clean up in the destructor, TODO: make it attempt to glDelete when you call the "remove()"
+	possibly use SSBO's instead of VBO's for vertex passing and management, check out http://stackoverflow.com/questions/25055580/bind-an-ssbo-to-a-fragment-shader
+	oh yea, and stb dependancy now too, for stb_image.h
+
+12 - 5 Oct 2016:
+	
