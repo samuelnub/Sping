@@ -2,6 +2,24 @@
 #include <Handler/Handler.h>
 #include <Util/Constants.h>
 
+Sping::Vertex::Vertex()
+{
+}
+
+Sping::Vertex::Vertex(const glm::vec3 & pos, const glm::vec3 & norm, const glm::vec2 & uv) :
+	pos(pos),
+	norm(norm),
+	uv(uv)
+{
+}
+
+Sping::Vertex::Vertex(bool test) :
+	pos({test,test,test}),
+	norm({test,test,test}),
+	uv({test,test})
+{
+}
+
 Sping::Mesh::Mesh()
 {
 }
@@ -45,7 +63,13 @@ const std::shared_ptr<Sping::Mesh> Sping::Meshes::load(const std::string & name,
 
 	this->meshes[name] = std::make_shared<Mesh>(false, name);
 
-	auto lambda = [&] {
+	auto lambda = [&, this] {
+		if (vertices.size() <= 0 || indices.size() <= 0)
+		{
+			Sping::debugLog({ "You numbo! Stop trying to make a mesh without any data! Looking at you, " + name});
+			throw Sping::Err::GENERIC;
+			return;
+		}
 		// Timely operation
 		this->meshes[name]->vertices = vertices;
 		this->meshes[name]->indices = indices;
@@ -105,6 +129,8 @@ const std::shared_ptr<Sping::Mesh> Sping::Meshes::load(const std::string & name,
 			);
 
 		glBindVertexArray(0);
+
+		Sping::debugLog({ "Loaded a mesh with the name " + name + " Exit code: " + std::to_string(glGetError()) });
 
 		this->meshes[name]->readable = true;
 	};

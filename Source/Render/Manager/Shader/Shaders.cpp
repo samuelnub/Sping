@@ -138,7 +138,7 @@ const std::shared_ptr<Sping::Shader> Sping::Shaders::load(const std::string & na
 
 		if (succ)
 		{
-			Sping::debugLog({ "Successfully compiled shaders and linked into " + name });
+			Sping::debugLog({ "Loaded a shader with the name " + name + " Exit code: " + std::to_string(glGetError()) });
 		}
 
 		this->shaders[name]->readable = true;

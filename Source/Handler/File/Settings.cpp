@@ -4,7 +4,7 @@
 Sping::Settings::Settings(Handler &handler) :
 	handler(handler)
 {
-	for (auto &category : this->SettingCategoryStrings)
+	for (auto &category : this->settingCategory)
 	{
 		this->load(category.first);
 	}

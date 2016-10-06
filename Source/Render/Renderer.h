@@ -2,6 +2,10 @@
 
 #include <memory>
 
+#include <Render/Manager/Mesh/Meshes.h>
+#include <Render/Manager/Shader/Shaders.h>
+#include <Render/Manager/Texture/Textures.h>
+
 namespace Sping
 {
 	class Handler;
@@ -15,6 +19,10 @@ namespace Sping
 		~Renderer();
 
 		void draw();
+
+		std::unique_ptr<Meshes> meshManager;
+		std::unique_ptr<Shaders> shaderManager;
+		std::unique_ptr<Textures> textureManager;
 
 	protected:
 

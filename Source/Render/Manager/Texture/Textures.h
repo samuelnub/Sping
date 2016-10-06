@@ -1,12 +1,6 @@
 #pragma once
 
-#ifdef __APPLE__
-#include <OpenGL/gl3.h>         /// remove the "3" for OpenGL versions < 3
-#include <OpenGL/gl3ext.h>      /// ditto
-#else 
-#define GLEW_STATIC
-#include <GL/glew.h>
-#endif
+#include <Util/GLEWInclude.h>
 
 #include <unordered_map>
 #include <map>
@@ -122,7 +116,7 @@ namespace Sping
 		const std::shared_ptr<Texture> load(
 			const std::string &name,
 			const std::vector<TextureFile> &textureFiles,
-			bool threaded = true
+			bool threaded = false
 			);
 
 		const std::shared_ptr<Texture> get(const std::string &name);

@@ -1,12 +1,6 @@
 #pragma once
 
-#ifdef __APPLE__
-#include <OpenGL/gl3.h>         /// remove the "3" for OpenGL versions < 3
-#include <OpenGL/gl3ext.h>      /// ditto
-#else 
-#define GLEW_STATIC
-#include <GL/glew.h>
-#endif
+#include <Util/GLEWInclude.h>
 
 #include <unordered_map>
 #include <vector>
@@ -33,7 +27,17 @@ namespace Sping
 	{
 		glm::vec3 pos;
 		glm::vec3 norm;
-		glm::vec3 uv;
+		glm::vec2 uv;
+
+		Vertex();
+		Vertex(
+			const glm::vec3 &pos,
+			const glm::vec3 &norm,
+			const glm::vec2 &uv
+			);
+
+		// Stupid dummy constructor for ease
+		Vertex(bool test);
 	};
 	
 	// Mesh instance, your "renderables" should only hold a shared_ptr to an existing one stored in the meshes class
@@ -92,7 +96,7 @@ namespace Sping
 			const std::vector<Vertex> &vertices,
 			const std::vector<GLuint> &indices,
 			GLDrawUsage usage = GLDrawUsage::DYNAMIC,
-			bool threaded = true);
+			bool threaded = false);
 
 		const std::shared_ptr<Mesh> get(const std::string &name);
 		

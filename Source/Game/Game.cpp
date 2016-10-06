@@ -1,10 +1,20 @@
 #include <Game/Game.h>
 #include <Util/Constants.h>
+#include <Util/Test/TestData.h> // TODO: test lol
 
 // TODO: use initializer lists instead (they initialize in the order they're in in your declaration, not here, so just mirror it
 Sping::Game::Game() :
-	handler(std::make_unique<Handler>())
+	handler(std::make_unique<Sping::Handler>()),
+	renderer(std::make_unique<Sping::Renderer>(*handler))
 {
+	this->renderer->meshManager->load(
+		Sping::ROOT_DIR,
+		Sping::Test::vertices,
+		Sping::Test::indices,
+		Sping::GLDrawUsage::DYNAMIC,
+		false
+		);
+
 	while(true)
 	{
 		this->tick();
@@ -13,7 +23,6 @@ Sping::Game::Game() :
 
 Sping::Game::~Game()
 {
-	// Proper RAII shouldn't have "shutdown()", they should handle themselves in their own destructor
 }
 
 void Sping::Game::tick()

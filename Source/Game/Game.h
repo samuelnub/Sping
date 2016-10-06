@@ -1,8 +1,11 @@
 #pragma once
 
+#include <Util/GLEWInclude.h>
+
 #include <memory>
 
 #include <Handler/Handler.h>
+#include <Render/Renderer.h>
 
 namespace Sping
 {
@@ -16,6 +19,7 @@ namespace Sping
 		void tick();
 
 		std::unique_ptr<Handler> handler;
+		std::unique_ptr<Renderer> renderer;
 
 	protected:
 

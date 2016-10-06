@@ -117,6 +117,8 @@ const std::shared_ptr<Sping::Texture> Sping::Textures::load(const std::string & 
 
 			textureMap->type = textureFile.type;
 
+			Sping::debugLog({ "Loaded a texture with the name " + name + " Exit code: " + std::to_string(glGetError()) });
+
 			this->textures[name]->readable = true;
 		}
 	};

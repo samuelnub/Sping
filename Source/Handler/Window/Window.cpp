@@ -1,10 +1,4 @@
-#ifdef __APPLE__
-#include <OpenGL/gl3.h>         /// remove the "3" for OpenGL versions < 3
-#include <OpenGL/gl3ext.h>      /// ditto
-#else 
-#define GLEW_STATIC
-#include <GL/glew.h>
-#endif
+#include <Util/GLEWInclude.h>
 
 #include <Handler/Window/Window.h>
 #include <Handler/Handler.h>
@@ -33,19 +27,19 @@ void Sping::Window::init()
 	{
 		windowFlags = windowFlags | SDL_WINDOW_BORDERLESS;
 	}
-	
+
 	this->window = SDL_CreateWindow(
-		this->handler.settings->get(Sping::SettingCategory::WINDOW, "Name").s.c_str(), 
-		SDL_WINDOWPOS_CENTERED, 
+		this->handler.settings->get(Sping::SettingCategory::WINDOW, "Name").s.c_str(),
 		SDL_WINDOWPOS_CENTERED,
-		this->handler.settings->get(Sping::SettingCategory::WINDOW, "Width").i, 
-		this->handler.settings->get(Sping::SettingCategory::WINDOW, "Height").i, 
+		SDL_WINDOWPOS_CENTERED,
+		this->handler.settings->get(Sping::SettingCategory::WINDOW, "Width").i,
+		this->handler.settings->get(Sping::SettingCategory::WINDOW, "Height").i,
 		windowFlags);
 	if (this->window == nullptr)
 	{
 		throw Sping::Err::WINDOW;
 	}
-	
+
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, this->handler.settings->get(Sping::SettingCategory::WINDOW, "GLMajorVer").i);
@@ -74,5 +68,5 @@ void Sping::Window::init()
 	// TODO: no magic numbers pls
 	glViewport(0, 0, 1280, 720);
 
-	Sping::debugLog("Initialized the window!");
+	Sping::debugLog({"Initialized the window! Return code: " + std::to_string(glGetError())});
 }
