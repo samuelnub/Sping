@@ -52,4 +52,8 @@
 	oh yea, and stb dependancy now too, for stb_image.h
 
 12 - 5 Oct 2016:
-	
+	refactored shaders class
+
+13 - 6 Oct 2016:
+	may have an eventual class to manage SSBOs, similar to how the mesh manager handles VBO's, as the ssbo's probably won't be used for vertex rendering (well i could, but i'll stick to the norm for now)
+	refactored mesh class

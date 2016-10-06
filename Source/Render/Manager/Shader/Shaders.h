@@ -46,7 +46,6 @@ namespace Sping
 		ShaderUniform(const std::string &name, GLfloat value);
 	};
 	
-	// TODO: refactor as factory pattern for Shaders
 	// Shader program holder, which just encapsulates a single pipeline
 	// Your renderable class should have a shared ptr to this from the Shaders manager
 	class Shader

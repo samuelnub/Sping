@@ -21,14 +21,21 @@ namespace Sping
 {
 	class Handler;
 
+	// Safer enum class wrapper for GL_STATIC_DRAW enum etc.
+	enum class GLDrawUsage
+	{
+		STATIC = GL_STATIC_DRAW,
+		DYNAMIC = GL_DYNAMIC_DRAW,
+		STREAM = GL_STREAM_DRAW
+	};
+
 	struct Vertex
 	{
 		glm::vec3 pos;
 		glm::vec3 norm;
 		glm::vec3 uv;
 	};
-
-	// TODO: refactor for factory pattern
+	
 	// Mesh instance, your "renderables" should only hold a shared_ptr to an existing one stored in the meshes class
 	class Mesh
 	{
@@ -36,22 +43,7 @@ namespace Sping
 		Mesh();
 		~Mesh();
 
-		Mesh(bool readable);
-
-		// Shouldn't be using this constructor directly
-		Mesh(
-			bool readable,
-			const std::string &name,
-			const std::vector<Vertex> &vertices,
-			const std::vector<GLuint> &indices
-			);
-
-		// Should only be used internally within Meshes class
-		int set(
-			const std::string &name,
-			const std::vector<Vertex> &vertices,
-			const std::vector<GLuint> &indices
-			);
+		Mesh(bool readable, const std::string &name);
 
 		inline const bool &isReadable()
 		{
@@ -99,11 +91,12 @@ namespace Sping
 			const std::string &name,
 			const std::vector<Vertex> &vertices,
 			const std::vector<GLuint> &indices,
+			GLDrawUsage usage = GLDrawUsage::DYNAMIC,
 			bool threaded = true);
 
 		const std::shared_ptr<Mesh> get(const std::string &name);
 		
-		int remove(const std::string &name);
+		int remove(std::shared_ptr<Mesh> &mesh);
 
 	protected:
 
@@ -114,7 +107,7 @@ namespace Sping
 		std::unordered_map<std::string, std::shared_ptr<Mesh>> meshes;
 
 		// By the way, trying to remove this - since it isn't in the map, it won't do anything
-		std::shared_ptr<Mesh> fauxMesh = std::make_shared<Mesh>(false);
+		std::shared_ptr<Mesh> fauxMesh = std::make_shared<Mesh>(false, "faux-mesh");
 
 	};
 }

@@ -10,84 +10,10 @@ Sping::Mesh::~Mesh()
 {
 }
 
-Sping::Mesh::Mesh(bool readable) :
-	readable(readable)
+Sping::Mesh::Mesh(bool readable, const std::string &name) :
+	readable(readable),
+	name(name)
 {
-}
-
-Sping::Mesh::Mesh(bool readable, const std::string & name, const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices) :
-	readable(readable)
-{
-	this->set(name, vertices, indices);
-}
-
-int Sping::Mesh::set(const std::string &name, const std::vector<Vertex> &vertices, const std::vector<GLuint> &indices)
-{
-	this->name = name;
-
-	// Big ol' operation
-	this->vertices = vertices;
-	this->indices = indices;
-
-	glGenVertexArrays(1, &this->vaoID);
-	glGenBuffers(1, &this->vboID);
-	glGenBuffers(1, &this->eboID);
-
-	glBindVertexArray(this->vaoID);
-
-	glBindBuffer(GL_ARRAY_BUFFER, this->vboID);
-	glBufferData(
-		GL_ARRAY_BUFFER,
-		this->vertices.size() * sizeof(Sping::Vertex),
-		&this->vertices.at(0), // Gotta specify the first element lol,
-		GL_STATIC_DRAW // TODO: maybe dynamic draw option in the future?
-		);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->eboID);
-	glBufferData(
-		GL_ELEMENT_ARRAY_BUFFER,
-		this->indices.size() * sizeof(GLuint),
-		&this->indices.at(0),
-		GL_STATIC_DRAW
-		);
-
-	// Vertex attributes
-	
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(
-		0,
-		3,
-		GL_FLOAT,
-		GL_FALSE,
-		sizeof(Sping::Vertex),
-		(GLvoid*)0
-		);
-
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(
-		1,
-		3,
-		GL_FLOAT,
-		GL_FALSE,
-		sizeof(Sping::Vertex),
-		(GLvoid*)offsetof(Sping::Vertex, norm)
-		);
-
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(
-		2,
-		2,
-		GL_FLOAT,
-		GL_FALSE,
-		sizeof(Sping::Vertex),
-		(GLvoid*)offsetof(Sping::Vertex, uv)
-		);
-
-	glBindVertexArray(0);
-
-	this->readable = true;
-
-	return 0;
 }
 
 Sping::Meshes::Meshes(Handler & handler) :
@@ -106,7 +32,7 @@ Sping::Meshes::~Meshes()
 	}
 }
 
-const std::shared_ptr<Sping::Mesh> Sping::Meshes::load(const std::string & name, const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices, bool threaded)
+const std::shared_ptr<Sping::Mesh> Sping::Meshes::load(const std::string & name, const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices, Sping::GLDrawUsage usage, bool threaded)
 {
 	try
 	{
@@ -117,25 +43,79 @@ const std::shared_ptr<Sping::Mesh> Sping::Meshes::load(const std::string & name,
 		;
 	}
 
-	this->meshes[name] = std::make_shared<Mesh>(false);
+	this->meshes[name] = std::make_shared<Mesh>(false, name);
+
+	auto lambda = [&] {
+		// Timely operation
+		this->meshes[name]->vertices = vertices;
+		this->meshes[name]->indices = indices;
+		
+		glGenVertexArrays(1, &this->meshes[name]->vaoID);
+		glGenBuffers(1, &this->meshes[name]->vboID);
+		glGenBuffers(1, &this->meshes[name]->eboID);
+
+		glBindVertexArray(this->meshes[name]->vaoID);
+
+		// You could make this an SSBO, tossing all OSX users out the window
+		glBindBuffer(GL_ARRAY_BUFFER, this->meshes[name]->vboID);
+		glBufferData(
+			GL_ARRAY_BUFFER,
+			this->meshes[name]->vertices.size() * sizeof(Sping::Vertex),
+			&this->meshes[name]->vertices.at(0),
+			static_cast<int>(usage)
+			);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->meshes[name]->eboID);
+		glBufferData(
+			GL_ELEMENT_ARRAY_BUFFER,
+			this->meshes[name]->indices.size() * sizeof(GLuint),
+			&this->meshes[name]->indices.at(0),
+			static_cast<int>(usage)
+			);
+
+		// Vert. attibs
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(
+			0,
+			3,
+			GL_FLOAT,
+			GL_FALSE,
+			sizeof(Sping::Vertex),
+			(GLvoid*)0
+			);
+
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(
+			1,
+			3,
+			GL_FLOAT,
+			GL_FALSE,
+			sizeof(Sping::Vertex),
+			(GLvoid*)offsetof(Sping::Vertex, norm)
+			);
+
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(
+			2,
+			2,
+			GL_FLOAT,
+			GL_FALSE,
+			sizeof(Sping::Vertex),
+			(GLvoid*)offsetof(Sping::Vertex, uv)
+			);
+
+		glBindVertexArray(0);
+
+		this->meshes[name]->readable = true;
+	};
 
 	if (threaded == true)
 	{
-		this->handler.threadPool->enqueue([=] {
-			this->meshes[name]->set(
-				name,
-				vertices,
-				indices
-				);
-		});
+		this->handler.threadPool->enqueue(lambda);
 	}
 	else if (threaded == false)
 	{
-		this->meshes[name]->set(
-			name,
-			vertices,
-			indices
-			);
+		lambda();
 	}
 
 	return this->meshes.at(name);
@@ -154,15 +134,32 @@ const std::shared_ptr<Sping::Mesh> Sping::Meshes::get(const std::string & name)
 	}
 }
 
-int Sping::Meshes::remove(const std::string & name)
+int Sping::Meshes::remove(std::shared_ptr<Sping::Mesh> &mesh)
 {
 	try
 	{
-		this->meshes.erase(name);
+		// It needs your shared_ptr and the pool's shared ptr to guarantee this, so the minimum is a 2
+		if (this->meshes.at(mesh->name).use_count() <= 2)
+		{
+			glDeleteVertexArrays(1, &mesh->vaoID);
+			glDeleteBuffers(1, &mesh->vboID);
+			glDeleteBuffers(1, &mesh->eboID);
+
+			this->meshes.at(mesh->name).reset();
+			this->meshes.erase(mesh->name);
+		}
+		else
+		{
+			mesh.reset();
+			return -1;
+		}
+
+		mesh.reset();
 		return 0;
 	}
 	catch (std::exception err)
 	{
-		return 1;
+		mesh.reset();
+		return -2;
 	}
 }
